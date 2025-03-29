@@ -4,7 +4,7 @@ description: "A quick start guide to running your first AI video workflow with C
 icon: "download"
 ---
 
-ComfyStream is available as a docker image at [livepeer/comfystream:latest](https://hub.docker.com/r/livepeer/comfystream). An NVIDIA GPU is required to run ComfyStream. 
+ComfyStream is available as a docker image at [livepeer/comfystream:stable](https://hub.docker.com/r/livepeer/comfystream/tags?name=stable). An NVIDIA GPU is required to run ComfyStream. 
 
 Choose a platform to install ComfyStream:
 <CardGroup cols={2}>
@@ -60,7 +60,7 @@ New-Item -ItemType Directory -Path "$env:USERPROFILE\models\ComfyUI--models", "$
 2. Pull and run the container:
 
 ```bash
-docker pull livepeer/comfystream:latest
+docker pull livepeer/comfystream:stable
 ```
 
 <Info>
@@ -75,7 +75,7 @@ docker run -it --gpus all \
 -p 5678:5678 \
 -v ~/models/ComfyUI--models:/workspace/ComfyUI/models \
 -v ~/models/ComfyUI--output:/workspace/ComfyUI/output \
-livepeer/comfystream:latest --download-models --build-engines --server
+livepeer/comfystream:stable --download-models --build-engines --server
 ```
 </CodeGroup>
 
