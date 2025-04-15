@@ -170,13 +170,10 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
         </Info>
       </Step>
         <Accordion title="Checking Docker Image Download Progress">
-    <Note>
     The ComfyStream Docker image is approximately 20GB. To check download progress, SSH into the VM and run:
-    
     ```bash
     docker pull livepeer/comfystream:latest
     ```
-    </Note>
   </Accordion>
       <Step title="Access the Server">  
         After the playbook completes, **ComfyStream** will start, and you can access **ComfyUI** at `https://<VM_IP>:<PORT_FOR_8189>`. 
@@ -209,9 +206,9 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
 
     3. **Set Up a Python Environment**:
        Create and activate a virtual environment with [Conda](https://docs.anaconda.com/miniconda/) and install the required dependencies from the `requirements.txt`
-        <Note>
+        <Warning>
        You need to have Conda installed on your local machine. If you don't have Conda installed, you can download and install it from [here](https://www.anaconda.com/docs/getting-started/miniconda/install).
-       </Note>
+       </Warning>
 
        ```bash
        conda create -n comfystream python=3.8
