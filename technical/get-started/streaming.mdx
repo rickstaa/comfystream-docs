@@ -4,7 +4,7 @@ description: "Stream your realtime AI workflows using OBS and browser source fro
 icon: "video"
 ---
 
-After setting up ComfyStream and running your first workflow, you can use OBS Studio to capture and broadcast your AI-enhanced streams to different platforms through Livepeer.
+After setting up ComfyStream and running your first workflow, you can use OBS Studio to capture and broadcast your AI-enhanced streams to your favorite platforms — whether it’s YouTube, Twitch, or distributed infrastructure providers like Livepeer.
 
 ## Prerequisites
 
@@ -18,17 +18,18 @@ After setting up ComfyStream and running your first workflow, you can use OBS St
   <Accordion title="Run ComfyStream Workflow">
     Before streaming with OBS, you need to have a running ComfyStream workflow. If you haven't done this yet, follow the [run your first workflow](/technical/get-started/quickstart#running-your-first-workflow) guide
      first.
-    
-    Once your stream is live, you'll see a small frame icon in the bottom right corner of the video output window.
-    ![frame icon](../../images/OBS-capture.png)
   </Accordion>
 </AccordionGroup>
 
 ## Setting Up OBS with ComfyStream
-
 <Steps>
   <Step title="Access the full-screen stream">
     Click the frame icon in the bottom right corner of the ComfyStream video output to open the stream in a new fullscreen browser tab.
+    <Accordion title="reference image">
+    <Frame caption="Once your stream is live, you'll see a small frame icon in the bottom right corner of the video output window.">
+      <img src="../../images/OBS-capture.png" />
+    </Frame>
+    </Accordion>
     
     <Note>
     This dedicated view provides a clean video source without any UI elements, perfect for capturing in OBS.
@@ -63,17 +64,7 @@ After setting up ComfyStream and running your first workflow, you can use OBS St
 ## Streaming to Platforms
 
 <AccordionGroup>
-  <Accordion title="Stream to Livepeer">
-    Livepeer is a decentralized video streaming network that offers cost-effective streaming infrastructure.
-    
-    Follow the [Livepeer Documentation](https://docs.livepeer.org/developers/guides/stream-via-obs) for detailed instructions on how to:
-    
-    1. Create a stream on Livepeer Studio
-    2. Configure OBS with your Livepeer stream key and RTMP URL
-    3. Start broadcasting your ComfyStream AI-enhanced video
-  </Accordion>
-  
-  <Accordion title="Other Streaming Platforms">
+  <Accordion title="Major Streaming Platforms">
     The same OBS setup can be used to stream to other platforms like:
     
     - YouTube Live
@@ -82,6 +73,15 @@ After setting up ComfyStream and running your first workflow, you can use OBS St
     - Custom RTMP servers
     
     Each platform will provide you with a unique stream key and RTMP URL to configure in OBS Settings → Stream.
+  </Accordion>
+    <Accordion title="Stream to Livepeer">
+    Livepeer is a decentralized video streaming network that offers cost-effective streaming infrastructure.
+    
+    Follow the [Livepeer Documentation](https://docs.livepeer.org/developers/guides/stream-via-obs) for detailed instructions on how to:
+    
+    1. Create a stream on Livepeer Studio
+    2. Configure OBS with your Livepeer stream key and RTMP URL
+    3. Start broadcasting your ComfyStream AI-enhanced video
   </Accordion>
 </AccordionGroup>
 
