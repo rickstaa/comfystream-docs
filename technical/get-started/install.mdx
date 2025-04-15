@@ -29,59 +29,84 @@ First, install the required system software:
   </Accordion>
 
   <Accordion title="Windows">
-    1. Install WSL 2:
-      - From a new command prompt, run: `wsl --install`
-      - Update WSL if needed: `wsl.exe --update`
-    2. Launch a new Terminal, then open a tab for **Ubuntu (WSL)**.
-    3. Inside of WSL, install [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-12-6-3-download-archive?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local) for WSL.
-    4. Install [Docker Desktop for Windows](https://docs.docker.com/get-started/introduction/get-docker-desktop/) for Windows.
-    5. Ensure WSL 2 Engine is enabled in Docker Desktop settings.
-    6. Inside of WSL, run `docker ps` to verify you have access to docker. 
-    7. From the WSL Terminal, continue with the steps below to setup the local environment
+    <Steps>
+      <Step title="Install WSL 2">
+        - From a new command prompt, run: `wsl --install`
+        - Update WSL if needed: `wsl.exe --update`
+      </Step>
+      
+      <Step title="Launch Ubuntu in Terminal">
+        Launch a new Terminal, then open a tab for **Ubuntu (WSL)**.
+      </Step>
+      
+      <Step title="Install NVIDIA CUDA Toolkit">
+        Inside of WSL, install [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-12-6-3-download-archive?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local) for WSL.
+      </Step>
+      
+      <Step title="Install Docker Desktop">
+        Install [Docker Desktop for Windows](https://docs.docker.com/get-started/introduction/get-docker-desktop/) for Windows.
+      </Step>
+      
+      <Step title="Configure Docker Desktop">
+        Ensure WSL 2 Engine is enabled in Docker Desktop settings.
+      </Step>
+      
+      <Step title="Verify Docker access">
+        Inside of WSL, run `docker ps` to verify you have access to docker.
+      </Step>
+      
+      <Step title="Continue with setup">
+        From the WSL Terminal, continue with the steps below to setup the local environment
+      </Step>
+    </Steps>
   </Accordion>
 </AccordionGroup>
 
 ### Setting Up Local Environment 
 
-1. Create directories for models and output:
-
-<CodeGroup>
-```bash Linux
-mkdir -p ~/models/ComfyUI--models ~/models/ComfyUI--output  
-```
-```batch Command Line
-mkdir %USERPROFILE%\models\ComfyUI--models %USERPROFILE%\models\ComfyUI--output
-```
-```powershell PowerShell
-New-Item -ItemType Directory -Path "$env:USERPROFILE\models\ComfyUI--models", "$env:USERPROFILE\models\ComfyUI--output"
-```
-</CodeGroup>
-
-2. Pull and run the container:
-
-```bash
-docker pull livepeer/comfystream:stable
-```
-
-<Info>
-If using Windows, ensure Docker Desktop is running first
-</Info>
-
-<CodeGroup>
-```bash Linux/WSL
-docker run -it --gpus all \
--p 8188:8188 \
--p 8889:8889 \
--p 5678:5678 \
--v ~/models/ComfyUI--models:/workspace/ComfyUI/models \
--v ~/models/ComfyUI--output:/workspace/ComfyUI/output \
-livepeer/comfystream:stable --download-models --build-engines --server
-```
-</CodeGroup>
-
-<Note>
-The `--download-models` and `--build-engines` flags will download required models and build TensorRT engines. This process may take some time depending on your network connection and GPU hardware and is only needed on the first run or when adding new models.
-</Note>
+<Steps>
+  <Step title="Create directories for models and output">
+    <CodeGroup>
+    ```bash Linux
+    mkdir -p ~/models/ComfyUI--models ~/models/ComfyUI--output  
+    ```
+    ```batch Command Line
+    mkdir %USERPROFILE%\models\ComfyUI--models %USERPROFILE%\models\ComfyUI--output
+    ```
+    ```powershell PowerShell
+    New-Item -ItemType Directory -Path "$env:USERPROFILE\models\ComfyUI--models", "$env:USERPROFILE\models\ComfyUI--output"
+    ```
+    </CodeGroup>
+  </Step>
+  
+  <Step title="Pull the ComfyStream container">
+    ```bash
+    docker pull livepeer/comfystream:stable
+    ```
+    
+    <Info>
+    If using Windows, ensure Docker Desktop is running first
+    </Info>
+  </Step>
+  
+  <Step title="Run the container">
+    <CodeGroup>
+    ```bash Linux/WSL
+    docker run -it --gpus all \
+    -p 8188:8188 \
+    -p 8889:8889 \
+    -p 5678:5678 \
+    -v ~/models/ComfyUI--models:/workspace/ComfyUI/models \
+    -v ~/models/ComfyUI--output:/workspace/ComfyUI/output \
+    livepeer/comfystream:stable --download-models --build-engines --server
+    ```
+    </CodeGroup>
+    
+    <Note>
+    The `--download-models` and `--build-engines` flags will download required models and build TensorRT engines. This process may take some time depending on your network connection and GPU hardware and is only needed on the first run or when adding new models.
+    </Note>
+  </Step>
+</Steps>
 
 <h2 id="remote-gpu">Remote GPU</h2>
 
@@ -105,48 +130,66 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
        - **SSH (Port 22)** – Remote access  
        - **HTTPS (Port 8189)** – ComfyStream access  
       
-    3. **Install Ansible**:  
-       Follow the [official Ansible installation guide](https://docs.ansible.com/ansible/latest/installation_guide/index.html).
+    3. **Install Ansible (on your local machine only)**:  
+       Ansible must be installed on your local machine (the control node). Follow the [official Ansible installation guide](https://docs.ansible.com/ansible/latest/installation_guide/index.html).
 
     ### Deployment Steps
 
-    1. **Configure the Inventory File**:
-       Add the VM's public IP to [ansible/inventory.yml](https://github.com/livepeer/comfystream/blob/main/scripts/ansible/inventory.yaml).
+    <Steps>
+      <Step title="Download the Ansible Playbook and Inventory">
+        Clone the ComfyStream repository to your local machine (where Ansible is installed):
+        
+        ```bash
+        git clone https://github.com/livepeer/comfystream.git
+        cd comfystream/scripts/ansible
+        ```
+        
+        This will give you access to both the playbook and the inventory file needed for deployment.
+        
+        <Info>
+        You do NOT need to install Ansible on the cloud server. Ansible runs from your local machine and connects to the server over SSH.
+        </Info>
+      </Step>
+      <Step title="Configure the Inventory File">
+        Add the VM's public IP to the `inventory.yml` file.
+      </Step>
+      
+      <Step title="Change the ComfyUI Password">  
+        Open the `plays/setup_comfystream.yaml` file and replace the `comfyui_password` value with your own secure password.
+      </Step>
+      
+      <Step title="Run the Playbook from Your Local Machine">  
+        Navigate to the ansible directory and execute this command from your local machine (where you cloned the repository):
 
-    2. **Change the ComfyUI Password:**  
-       Open the [ansible/plays/setup_comfystream.yaml](https://github.com/livepeer/comfystream/blob/main/scripts/ansible/plays/setup_comfystream.yaml) file and replace the `comfyui_password` value with your own secure password.
+        ```bash
+        ansible-playbook -i inventory.yaml plays/setup_comfystream.yaml
+        ```
 
-    3. **Run the Playbook**:  
-       Execute:
-
-       ```bash
-       ansible-playbook -i ansible/inventory.yaml ansible/plays/setup_comfystream.yaml
-       ```
-
-       > When using a non-sudo user, add `--ask-become-pass` to provide the sudo password.
-
-    4. **Access the Server**:  
-       After the playbook completes, **ComfyStream** will start, and you can access **ComfyUI** at `https://<VM_IP>:<PORT_FOR_8189>`. 
-
-       To persist the password, set the `comfyui_password` variable when running the playbook:
-
-       ```bash
-       ansible-playbook -i ansible/inventory.yaml ansible/plays/setup_comfystream.yaml -e "comfyui_password=YourSecurePasswordHere"
-       ```
-
+        <Info>
+        When using a non-sudo user, add `--ask-become-pass` to provide the sudo password.
+        </Info>
+      </Step>
+        <Accordion title="Checking Docker Image Download Progress">
     <Note>
-    If you encounter a `toomanyrequests` error while pulling the Docker image, either wait a few minutes or provide your Docker credentials when running the playbook:  
-
-    ```bash
-    ansible-playbook -i ansible/inventory.yaml ansible/plays/setup_comfystream.yaml -e "docker_hub_username=your_dockerhub_username docker_hub_password=your_dockerhub_pat"
-    ```
-
     The ComfyStream Docker image is approximately 20GB. To check download progress, SSH into the VM and run:
-
+    
     ```bash
     docker pull livepeer/comfystream:latest
     ```
     </Note>
+  </Accordion>
+      <Step title="Access the Server">  
+        After the playbook completes, **ComfyStream** will start, and you can access **ComfyUI** at `https://<VM_IP>:<PORT_FOR_8189>`. 
+
+        To persist the password, set the `comfyui_password` variable when running the playbook:
+
+        ```bash
+        ansible-playbook -i inventory.yaml plays/setup_comfystream.yaml -e "comfyui_password=YourSecurePasswordHere"
+        ```
+      </Step>
+    </Steps>
+
+
   </Accordion>
 
   <Accordion title="Deploy on TensorDock (Fully Automated)">
@@ -157,8 +200,18 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
     1. **Create a TensorDock Account**: 
        Sign up at [Tensordock](https://dashboard.tensordock.com/signup), add a payment method, and generate API credentials.
 
-    2. **Set Up a Python Environment**:
-       Create and activate a virtual environment with [Conda](https://docs.anaconda.com/miniconda/) and install the required dependencies:
+    2. **Clone the ComfyStream Repository**:
+       The deployment script is part of the ComfyStream repository. Clone it to your local machine:
+       ```bash
+       git clone https://github.com/livepeer/comfystream.git
+       cd comfystream/scripts
+       ```
+
+    3. **Set Up a Python Environment**:
+       Create and activate a virtual environment with [Conda](https://docs.anaconda.com/miniconda/) and install the required dependencies from the `requirements.txt`
+        <Note>
+       You need to have Conda installed on your local machine. If you don't have Conda installed, you can download and install it from [here](https://www.anaconda.com/docs/getting-started/miniconda/install).
+       </Note>
 
        ```bash
        conda create -n comfystream python=3.8
@@ -168,51 +221,90 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
 
     ### Deployment Steps
 
-    1. **Run the Script**:  
-       Execute the following command to provision a VM and set up ComfyStream automatically:
+    <Steps>
+      <Step title="Run the Script">  
+        You must provide either a password OR an SSH key for VM access (not both):
 
-       ```bash
-       python spinup_comfystream_tensordock.py --api-key <API_KEY> --api-token <API_TOKEN>
-       ```
+        **Using a password:**
+        ```bash
+        python spinup_comfystream_tensordock.py --api-key <API_KEY> --api-token <API_TOKEN> --password <SECURE_PASSWORD>
+        ```
 
-    2. **Access the Server**:  
-       Once the setup is complete, the script will display the URLs to access ComfyStream.
+        **Using an SSH key:**
+        ```bash
+        python spinup_comfystream_tensordock.py --api-key <API_KEY> --api-token <API_TOKEN> --public-ssh-key "$(cat ~/.ssh/id_rsa.pub)"
+        ```
+        
+        <Info>
+        The script will automatically generate a separate strong password for accessing the ComfyUI web interface.
+        </Info>
 
-    3. **Stop & Delete the VM** (When No Longer Needed):
-       To stop and remove the instance, run:
+        **Useful optional flags:**
+        - `--vm-name <NAME>`: Custom name for your VM
+        - `--max-price <PRICE>`: Maximum hourly price (default: 0.5 USD)
+        - `--location "City, Country"`: Preferred location for the VM
+        - `--qr-code`: Generate QR code for easy access
+      </Step>
+      
+      <Step title="Wait for Setup and Access Information">  
+        The setup process can take up to 30 minutes. Once complete, the script will display:
+        - ComfyUI URL `https://<VM_IP>:<PORT>`
+        - ComfyUI username: `comfyadmin`
+        - Auto-generated ComfyUI password
+        - SSH command to access the VM
+        
+        <Note>
+        Make sure to save the auto-generated ComfyUI password securely!
+        </Note>
+      </Step>
+      
+      <Step title="Stop & Delete the VM (When No Longer Needed)">
+        To avoid unnecessary charges, delete the VM when you're done:
 
-       ```bash
-       python spinup_comfystream_tensordock.py --delete <VM_ID>
-       ```
+        ```bash
+        python spinup_comfystream_tensordock.py --api-key <API_KEY> --api-token <API_TOKEN> --delete <VM_ID>
+        ```
 
-       Replace `<VM_ID>` with the VM ID found in the script logs or the [TensorDock dashboard](https://dashboard.tensordock.com/instances).
-
-    <Note>
-    If you encounter `max retries exceeded with URL` errors, the VM might have been created but is inaccessible.  
-    Check the [TensorDock dashboard](https://dashboard.tensordock.com/instances), delete the VM manually, wait 2-3 minutes, then rerun the script.
-    </Note>
+        Replace `<VM_ID>` with the VM ID found in the script logs or the `TensorDock dashboard`
+      </Step>
+    </Steps>
   </Accordion>
 
   <Accordion title="Deploy on RunPod">
-    1. Deploy using the RunPod template 
-    [livepeer-comfystream](https://runpod.io/console/deploy?template=w01m180vxx&ref=u8tlskew)
-    <Note>
-    First-time deployment to a network volume takes approximately 20-45 minutes depending on pod performance. 
-    For faster deployment without data persistence, use the RunPod template [livepeer-comfystream-novolume](https://runpod.io/console/deploy?template=j4p1g7t5vs&ref=u8tlskew)
-    </Note>
-    2. When using the [livepeer-comfystream](https://runpod.io/console/deploy?template=w01m180vxx&ref=u8tlskew) template, create and select a network volume to persist files.
-    ![New Network Volume](../../images/networkvolume.png)
-    3. Select an appropriate GPU (ex: RTX 4090) and click **Deploy On-Demand**
-    4. Click the **Logs** button to monitor deployment progress.
-    ![runpod-log](../../images/runpod-log.png)
-    5. Once the container is fully running, you can access ComfyUI by clicking **Connect**
+    <Steps>
+      <Step title="Deploy using the RunPod template">
+        Use the template [livepeer-comfystream](https://runpod.io/console/deploy?template=w01m180vxx&ref=u8tlskew)
+        <Note>
+        First-time deployment to a network volume takes approximately 20-45 minutes depending on pod performance. 
+        For faster deployment without data persistence, use the RunPod template [livepeer-comfystream-novolume](https://runpod.io/console/deploy?template=j4p1g7t5vs&ref=u8tlskew)
+        </Note>
+      </Step>
+      
+      <Step title="Create a network volume">
+        When using the [livepeer-comfystream](https://runpod.io/console/deploy?template=w01m180vxx&ref=u8tlskew) template, create and select a network volume to persist files.
+        ![New Network Volume](../../images/networkvolume.png)
+      </Step>
+      
+      <Step title="Select GPU and deploy">
+        Select an appropriate GPU (ex: RTX 4090) and click **Deploy On-Demand**
+      </Step>
+      
+      <Step title="Monitor deployment progress">
+        Click the **Logs** button to monitor deployment progress.
+        ![runpod-log](../../images/runpod-log.png)
+      </Step>
+      
+      <Step title="Access ComfyUI">
+        Once the container is fully running, you can access ComfyUI by clicking **Connect**
+      </Step>
+    </Steps>
   </Accordion>
 </AccordionGroup>
 
 
 ## Accessing ComfyUI
 <AccordionGroup>
-  <Accordion title="RunPod">
+  <Accordion title="Remote">
   1. Click **Connect** in pod dashboard
     ![comfyui-connect-pod](../../images/comfyui-connect-pod.png)
   2. Access ComfyUI: **HTTP Service -> :8188**
@@ -232,9 +324,30 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
 ![comfystream-server-settings.png](../../images/comfystream-server-settings.png)
 3. Click **Save**.
 4. Open the **ComfyStream** menu again, then click **Start ComfyStream Server**. Wait for the server status indicator to turn green. 
-<Note>
-You can also monitor ComfyStream server logs in ComfyUI's log terminal tab.
-</Note>
+    <Note>
+    You can monitor ComfyStream server logs in ComfyUI's log terminal tab.
+    </Note>
 5. Click **Open ComfyStream UI** to launch in a new tab.
 Alternatively, you can double-click the node graph and search for **ComfyStream UI Preview**
 ![comfystream-ui-embed.png](../../images/comfystream-ui-embed.png)
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Docker Hub Rate Limits (toomanyrequests error)">
+    <Note>
+    If you encounter a `toomanyrequests` error while pulling the Docker image, either wait a few minutes or provide your Docker credentials when running the playbook:
+    
+    ```bash
+    ansible-playbook -i inventory.yaml plays/setup_comfystream.yaml -e "docker_hub_username=your_dockerhub_username docker_hub_password=your_dockerhub_pat"
+    ```
+    </Note>
+  </Accordion>
+  <Accordion title="TensorDock Deployment Issues">
+    <Note>
+    If you encounter `max retries exceeded with URL` errors during TensorDock deployment, the VM might have been created but is inaccessible. Check the [TensorDock dashboard](https://dashboard.tensordock.com/instances), delete the VM manually, wait 2-3 minutes, then rerun the script.
+    </Note>
+  </Accordion>
+</AccordionGroup>
