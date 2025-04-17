@@ -10,18 +10,21 @@ After setting up ComfyStream and running your first workflow, you can use OBS St
 
 <AccordionGroup>
   <Accordion title="Install OBS Studio">
-    Download and install [OBS Studio](https://obsproject.com/) for your operating system.
-    
-    OBS (Open Broadcaster Software) is a free and open-source software for video recording and live streaming.
+    Download and install [OBS Studio](https://obsproject.com/) for your
+    operating system. OBS (Open Broadcaster Software) is a free and open-source
+    software for video recording and live streaming.
   </Accordion>
-  
+
   <Accordion title="Run ComfyStream Workflow">
-    Before streaming with OBS, you need to have a running ComfyStream workflow. If you haven't done this yet, follow the [run your first workflow](/technical/get-started/quickstart#running-your-first-workflow) guide
-     first.
+    Before streaming with OBS, you need to have a running ComfyStream workflow.
+    If you haven't done this yet, follow the [run your first
+    workflow](/technical/get-started/quickstart#running-your-first-workflow)
+    guide first.
   </Accordion>
 </AccordionGroup>
 
 ## Setting Up OBS with ComfyStream
+
 <Steps>
   <Step title="Access the full-screen stream">
     Click the  <Icon icon="up-right-from-square" iconType="solid" />  icon in the bottom right corner of the ComfyStream video output to open the stream in a new fullscreen browser tab.
@@ -47,11 +50,12 @@ After setting up ComfyStream and running your first workflow, you can use OBS St
     4. Name your source (e.g., "ComfyStream Output") and click **OK**.  
     5. Paste the URL you copied from the ComfyStream fullscreen tab into the **URL** field.  
     6. Set the **Width** and **Height** fields to **1024** to match the resolution of the ComfyStream video.  
-    7. Click **OK** to confirm and add the browser source.  
+    7. Click **OK** to confirm and add the browser source.
 
     <Info>
     You may need to adjust other browser source settings depending on your specific requirements and system performance.
     </Info>
+
   </Step>
   
   <Step title="Position and scale the source">
@@ -65,28 +69,25 @@ After setting up ComfyStream and running your first workflow, you can use OBS St
 
 <AccordionGroup>
   <Accordion title="Major Streaming Platforms">
-    Use the same OBS setup to stream to platforms like:
-    
-    - YouTube Live
-    - Twitch
-    - Facebook Live
-    - Custom RTMP servers
-    
-    Each platform provides a unique **stream key** and **RTMP URL**. Configure these in **OBS Settings → Stream** to start broadcasting.
+    Use the same OBS setup to stream to platforms like: - YouTube Live - Twitch
+    - Facebook Live - Custom RTMP servers Each platform provides a unique
+    **stream key** and **RTMP URL**. Configure these in **OBS Settings →
+    Stream** to start broadcasting.
   </Accordion>
-    <Accordion title="Stream to Livepeer">
-    Livepeer is a distributed video streaming network offering cost-effective streaming infrastructure.
-    
-    Follow the [Livepeer Documentation](https://docs.livepeer.org/developers/guides/stream-via-obs) for detailed instructions on how to:
-    
-    1. Create a stream on **Livepeer Studio**.
-    2. Configure OBS with your Livepeer **Stream Key** and **RTMP ingest** URL.
-    3. Start broadcasting your **ComfyStream AI-enhanced video**.
+  <Accordion title="Stream to Livepeer">
+    Livepeer is a distributed video streaming network offering cost-effective
+    streaming infrastructure. Follow the [Livepeer
+    Documentation](https://docs.livepeer.org/developers/guides/stream-via-obs)
+    for detailed instructions on how to: 1. Create a stream on **Livepeer
+    Studio**. 2. Configure OBS with your Livepeer **Stream Key** and **RTMP
+    ingest** URL. 3. Start broadcasting your **ComfyStream AI-enhanced video**.
   </Accordion>
 </AccordionGroup>
 
 ## Troubleshooting
 
 <Note>
-If you experience performance issues, try reducing the resolution or frame rate in both ComfyStream and OBS settings. Browser sources can be resource-intensive, especially with AI-generated content.
+  If you experience performance issues, try reducing the resolution or frame
+  rate in both ComfyStream and OBS settings. Browser sources can be
+  resource-intensive, especially with AI-generated content.
 </Note>
