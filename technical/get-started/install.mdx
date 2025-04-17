@@ -185,86 +185,6 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
         ```
       </Step>
     </Steps>
-
-
-  </Accordion>
-
-  <Accordion title="Deploy on TensorDock (Fully Automated)">
-    TensorDock provides affordable GPU instances perfect for running ComfyStream. We offer a fully automated script that handles VM provisioning, setup, and server launch.
-
-    ### Prerequisites
-
-    1. **Create a TensorDock Account**: 
-       Sign up at [Tensordock](https://dashboard.tensordock.com/signup), add a payment method, and generate API credentials.
-
-    2. **Clone the ComfyStream Repository**:
-       The deployment script is part of the ComfyStream repository. Clone it to your local machine:
-       ```bash
-       git clone https://github.com/livepeer/comfystream.git
-       cd comfystream/scripts
-       ```
-
-    3. **Set Up a Python Environment**:
-       Create and activate a virtual environment with [Conda](https://docs.anaconda.com/miniconda/) and install the required dependencies from the `requirements.txt`
-        <Warning>
-       You need to have Conda installed on your local machine. If you don't have Conda installed, you can download and install it from [here](https://www.anaconda.com/docs/getting-started/miniconda/install).
-       </Warning>
-
-       ```bash
-       conda create -n comfystream python=3.8
-       conda activate comfystream
-       pip install -r requirements.txt
-       ```
-
-    ### Deployment Steps
-
-    <Steps>
-      <Step title="Run the Script">  
-        You must provide either a password OR an SSH key for VM access (not both):
-
-        **Using a password:**
-        ```bash
-        python spinup_comfystream_tensordock.py --api-key <API_KEY> --api-token <API_TOKEN> --password <SECURE_PASSWORD>
-        ```
-
-        **Using an SSH key:**
-        ```bash
-        python spinup_comfystream_tensordock.py --api-key <API_KEY> --api-token <API_TOKEN> --public-ssh-key "$(cat ~/.ssh/id_rsa.pub)"
-        ```
-        
-        <Info>
-        The script will automatically generate a separate strong password for accessing the ComfyUI web interface.
-        </Info>
-
-        **Useful optional flags:**
-        - `--vm-name <NAME>`: Custom name for your VM
-        - `--max-price <PRICE>`: Maximum hourly price (default: 0.5 USD)
-        - `--location "City, Country"`: Preferred location for the VM
-        - `--qr-code`: Generate QR code for easy access
-      </Step>
-      
-      <Step title="Wait for Setup and Access Information">  
-        The setup process can take up to 30 minutes. Once complete, the script will display:
-        - ComfyUI URL `https://<VM_IP>:<PORT>`
-        - ComfyUI username: `comfyadmin`
-        - Auto-generated ComfyUI password
-        - SSH command to access the VM
-        
-        <Note>
-        Make sure to save the auto-generated ComfyUI password securely!
-        </Note>
-      </Step>
-      
-      <Step title="Stop & Delete the VM (When No Longer Needed)">
-        To avoid unnecessary charges, delete the VM when you're done:
-
-        ```bash
-        python spinup_comfystream_tensordock.py --api-key <API_KEY> --api-token <API_TOKEN> --delete <VM_ID>
-        ```
-
-        Replace `<VM_ID>` with the VM ID found in the script logs or the `TensorDock dashboard`
-      </Step>
-    </Steps>
   </Accordion>
 
   <Accordion title="Deploy on RunPod">
@@ -301,7 +221,7 @@ ComfyStream can be deployed on any cloud provider with GPU support. Documentatio
 
 ## Accessing ComfyUI
 <AccordionGroup>
-  <Accordion title="Remote">
+  <Accordion title="Remote RunPod">
   1. Click **Connect** in pod dashboard
     ![comfyui-connect-pod](../../images/comfyui-connect-pod.png)
   2. Access ComfyUI: **HTTP Service -> :8188**
